@@ -3,7 +3,7 @@ from json import loads,dumps
 import datetime
 from time import time
 
-database = mysql.connector.connect(host='localhost',user='root',password='',database='avval.ir')
+database = mysql.connector.connect(host='localhost',user='root',password='',database='mihanpop_10')
 cursor = database.cursor()
 
 sql = 'INSERT INTO jobs (category,sub_category,opened_url,company_name,company_image,address,telephons,web_url,email,social_media,chats) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
@@ -26,7 +26,7 @@ for category in jobs_list:
         url = job['web_url']
         name = job['company_name']
 
-        setting = dumps({"is_share_button_visible":0,"is_download_button_visible":0,"background_type":"gradient","background_color":"#ffffff","background_preset":"two","background_gradient_one":"#1e3fc4","background_gradient_two":"#ffffff","background":"7c548c06e9f39e71ce58df979e8823f4.png","font_family":"default","font_size":16,"favicon":"09bd7faf402cf63acff18a53fa29824d.png","logo":"43b49973aa7439e1e9582067f49ead95.png","opengraph":"","logo_size":125660,"favicon_size":99010,"opengraph_size":None,"background_size":98715,"first_name":"","last_name":"","company":"","job_title":"","birthday":""})
+        setting = dumps({"is_share_button_visible":0,"is_download_button_visible":0,"background_type":"gradient","background_color":"#ffffff","background_preset":"two","background_gradient_one":"#1e3fc4","background_gradient_two":"#ffffff","background":job['company_image'],"font_family":"default","font_size":16,"favicon":"09bd7faf402cf63acff18a53fa29824d.png","logo":job['company_image'],"opengraph":"","logo_size":125660,"favicon_size":99010,"opengraph_size":None,"background_size":98715,"first_name":"","last_name":"","company":"","job_title":"","birthday":""})
 
         description = job['desc']
         password = None
@@ -87,7 +87,8 @@ for category in jobs_list:
 
         # web
         if job['web_url']:
-            values = (None,'2','1','link',str(job['company_name']),str(job['web_url']),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+            url = job['web_url'].replace('https://','').replace('http://','').replace('/','').replace('.','-')
+            values = (None,'2','1','link',str(job['company_name']),str(url),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
             cursor.execute(sql,values)
 
