@@ -23,7 +23,10 @@ for category in jobs_list:
         project_id = None
         user_id = 1
         pixels_ids = dumps([])
-        url = job['web_url']
+        url = None
+        if job['web_url']:
+            url = job['web_url'].replace('https://','').replace('http://','').replace('/','').replace('.','-')
+            
         name = job['company_name']
 
         setting = dumps({"is_share_button_visible":0,"is_download_button_visible":0,"background_type":"gradient","background_color":"#ffffff","background_preset":"two","background_gradient_one":"#1e3fc4","background_gradient_two":"#ffffff","background":job['company_image'],"font_family":"default","font_size":16,"favicon":"09bd7faf402cf63acff18a53fa29824d.png","logo":job['company_image'],"opengraph":"","logo_size":125660,"favicon_size":99010,"opengraph_size":None,"background_size":98715,"first_name":"","last_name":"","company":"","job_title":"","birthday":""})
@@ -60,7 +63,7 @@ for category in jobs_list:
 
         # address
         if job['address']:
-            values = (None,'2','1','address',str(job['company_name']),str(job['address']),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+            values = (None,inserted_id,'1','address',str(job['company_name']),str(job['address']),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
             cursor.execute(sql,values)
 
@@ -69,7 +72,7 @@ for category in jobs_list:
         # telephons
         if job['telephons']:
             for single_telephon in job['telephons']:
-                values = (None,'2','1','phone',str(job['company_name']),str(single_telephon),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+                values = (None,inserted_id,'1','phone',str(job['company_name']),str(single_telephon),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
                 cursor.execute(sql,values)
 
@@ -79,7 +82,7 @@ for category in jobs_list:
         #phone numbers
         if job['phone_numbers']:
             for single_phone in job['phone_numbers']:
-                values = (None,'2','1','phone',str(job['company_name']),str(single_phone),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+                values = (None,inserted_id,'1','phone',str(job['company_name']),str(single_phone),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
                 cursor.execute(sql,values)
             
@@ -88,7 +91,7 @@ for category in jobs_list:
         # web
         if job['web_url']:
             url = job['web_url'].replace('https://','').replace('http://','').replace('/','').replace('.','-')
-            values = (None,'2','1','link',str(job['company_name']),str(url),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+            values = (None,inserted_id,'1','link',str(job['company_name']),str(url),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
             cursor.execute(sql,values)
 
@@ -96,7 +99,7 @@ for category in jobs_list:
 
         # email
         if job['email']:
-            values = (None,'2','1','email',str(job['company_name']),str(job['email']),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+            values = (None,inserted_id,'1','email',str(job['company_name']),str(job['email']),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
             cursor.execute(sql,values)
             order += 1
@@ -130,7 +133,7 @@ for category in jobs_list:
                 else:
                     vcard_type = 'media'
 
-                values = (None,'2','1',vcard_type,str(job['company_name']),str(single_media),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+                values = (None,inserted_id,'1',vcard_type,str(job['company_name']),str(single_media),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
                 cursor.execute(sql,values)
                 order += 1
@@ -166,7 +169,7 @@ for category in jobs_list:
                 else:
                     vcard_type = 'chat'
 
-                values = (None,'2','1',vcard_type,str(job['company_name']),str(single_chat),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+                values = (None,inserted_id,'1',vcard_type,str(job['company_name']),str(single_chat),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
                 cursor.execute(sql,values)
                 order += 1
