@@ -99,7 +99,8 @@ for category in jobs_list:
 
         # email
         if job['email']:
-            values = (None,inserted_id,'1','email',str(job['company_name']),str(job['email']),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+            email = job['email'].split('://')
+            values = (None,inserted_id,'1','email',str(job['company_name']),str(email[1]),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
             cursor.execute(sql,values)
             order += 1
@@ -108,32 +109,43 @@ for category in jobs_list:
         if job['social_media']:
             for single_media in job['social_media']:
                 vcard_type = None
+                is_type_set = False
 
-                if single_media.find('instagram'):
+                if single_media.find('instagram') != -1 and not is_type_set:
                     vcard_type = 'instagram'
+                    is_type_set = True
 
-                elif single_media.find('t.me'):
+                elif single_media.find('t.me') != -1 and not is_type_set:
                     vcard_type = 'telegram'
+                    is_type_set = True
             
-                elif single_media.find('twitter'):
+                elif single_media.find('twitter') != -1 and not is_type_set:
                     vcard_type = 'twitter'
+                    is_type_set = True
 
-                elif single_media.find('facebook'):
+                elif single_media.find('facebook') != -1 and not is_type_set:
                     vcard_type = 'facebook'
+                    is_type_set = True
             
-                elif single_media.find('linkedin'):
+                elif single_media.find('linkedin') != -1 and not is_type_set:
                     vcard_type = 'linkedin'
+                    is_type_set = True
 
-                elif single_media.find('youtube'):
+                elif single_media.find('youtube') != -1 and not is_type_set:
                     vcard_type = 'youtube'
+                    is_type_set = True
 
-                elif single_media.find('whatsapp') or single_media.find('w.me'):
+                elif single_media.find('whatsapp') != -1 and not is_type_set or single_media.find('w.me') and not is_type_set:
                     vcard_type = 'whatsapp'
+                    is_type_set = True
             
                 else:
                     vcard_type = 'media'
+                    is_type_set = True
 
-                values = (None,inserted_id,'1',vcard_type,str(job['company_name']),str(single_media),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+                media = single_media.split('/')
+
+                values = (None,inserted_id,'1',vcard_type,str(job['company_name']),str(media[-1]),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
                 cursor.execute(sql,values)
                 order += 1
@@ -144,32 +156,43 @@ for category in jobs_list:
 
             for single_chat in job['chats']:
                 vcard_type = None
+                is_type_set = False
 
-                if single_media.find('instagram'):
+                if single_chat.find('instagram') != -1 and not is_type_set:
                     vcard_type = 'instagram'
+                    is_type_set = True
 
-                elif single_media.find('t.me'):
+                elif single_chat.find('t.me') != -1 and not is_type_set:
                     vcard_type = 'telegram'
+                    is_type_set = True
             
-                elif single_media.find('twitter'):
+                elif single_chat.find('twitter') != -1 and not is_type_set:
                     vcard_type = 'twitter'
+                    is_type_set = True
 
-                elif single_media.find('facebook'):
+                elif single_chat.find('facebook') != -1 and not is_type_set:
                     vcard_type = 'facebook'
+                    is_type_set = True
             
-                elif single_media.find('linkedin'):
+                elif single_chat.find('linkedin') != -1 and not is_type_set:
                     vcard_type = 'linkedin'
+                    is_type_set = True
 
-                elif single_media.find('youtube'):
+                elif single_chat.find('youtube') != -1 and not is_type_set:
                     vcard_type = 'youtube'
+                    is_type_set = True
 
-                elif single_media.find('whatsapp') or single_media.find('w.me'):
+                elif single_chat.find('whatsapp') != -1 and not is_type_set or single_media.find('w.me') and not is_type_set:
                     vcard_type = 'whatsapp'
+                    is_type_set = True
             
                 else:
                     vcard_type = 'chat'
+                    is_type_set = True
 
-                values = (None,inserted_id,'1',vcard_type,str(job['company_name']),str(single_chat),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+                chat = single_chat.split('/')
+
+                values = (None,inserted_id,'1',vcard_type,str(job['company_name']),str(chat[-1]),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
                 cursor.execute(sql,values)
                 order += 1
