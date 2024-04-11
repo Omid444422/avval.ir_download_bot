@@ -25,7 +25,17 @@ for category in jobs_list:
         pixels_ids = dumps([])
         url = None
         if job['web_url']:
-            url = job['web_url'].replace('https://','').replace('http://','').replace('/','').replace('.','-')
+            url = job['web_url'].replace('https://','').replace('http://','').replace('/','-').replace('.','-')
+
+        #set phone numbers as url if url not exist
+        if job['phone_numbers'] and not job['web_url']:
+            for single_phone in job['phone_numbers']:
+                url = str(single_phone)
+
+        # telephons
+        if job['telephons'] and not job['web_url']:
+            for single_telephon in job['telephons']:
+                url = str(single_telephon)
             
         name = job['company_name']
 
@@ -69,18 +79,17 @@ for category in jobs_list:
 
             order += 1
 
-        # telephons
-        if job['telephons']:
-            for single_telephon in job['telephons']:
-                values = (None,inserted_id,'1','phone',str(job['company_name']),str(single_telephon),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+        # web
+        if job['web_url']:
+            url = job['web_url']
+            values = (None,inserted_id,'1','link',str(job['company_name']),str(url),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
-                cursor.execute(sql,values)
+            cursor.execute(sql,values)
 
-                order += 1
+            order += 1
 
-        
-        #phone numbers
-        if job['phone_numbers']:
+         #phone numbers
+        if job['phone_numbers'] and not job['web_url']:
             for single_phone in job['phone_numbers']:
                 values = (None,inserted_id,'1','phone',str(job['company_name']),str(single_phone),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
@@ -88,14 +97,32 @@ for category in jobs_list:
             
                 order += 1
 
-        # web
-        if job['web_url']:
-            url = job['web_url'].replace('https://','').replace('http://','').replace('/','').replace('.','-')
-            values = (None,inserted_id,'1','link',str(job['company_name']),str(url),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+         # telephons
+        if job['telephons'] and not job['web_url']:
+            for single_telephon in job['telephons']:
+                values = (None,inserted_id,'1','phone',str(job['company_name']),str(single_telephon),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
 
-            cursor.execute(sql,values)
+                cursor.execute(sql,values)
 
-            order += 1
+                order += 1
+
+         #phone numbers set as link
+        if job['phone_numbers'] and not job['web_url']:
+            for single_phone in job['phone_numbers']:
+                values = (None,inserted_id,'1','link',str(job['company_name']),str(single_phone),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+
+                cursor.execute(sql,values)
+            
+                order += 1
+
+          # telephons set as link
+        if job['telephons'] and not job['web_url']:
+            for single_telephon in job['telephons']:
+                values = (None,inserted_id,'1','link',str(job['company_name']),str(single_telephon),"{'\open_in_new_tab\':1}",'0','0','1',current_time,current_time)
+
+                cursor.execute(sql,values)
+
+                order += 1
 
         # email
         if job['email']:
