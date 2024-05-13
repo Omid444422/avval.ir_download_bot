@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from os.path import exists
-from urllib.parse import unquote
 from time import sleep
 from json import loads,dumps
 
@@ -13,7 +12,7 @@ categories_links_list = None
 downloaded_job_links = list()
 counter = 1
 
-with open('category_data.json','r',encoding='utf-8') as json_category_file:
+with open('./category_data.json','r',encoding='utf-8') as json_category_file:
     categories_links_list = loads(json_category_file.read())
 
 chrome_options = Options()
@@ -39,7 +38,7 @@ for single_category in categories_links_list:
             except:
                 pass
 
-            jobs = driver.find_elements(By.CSS_SELECTOR,'div.desc h2 a')
+            jobs = driver.find_elements(By.CSS_SELECTOR,'#search_form > div.flex.flex-wrap > main > div.c-result > div > div.lg\:flex.justify-center.items-center.min-h-32 > div.content > h2 > a')
             jobs_list = list()
 
             for job in jobs:
